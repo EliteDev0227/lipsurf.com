@@ -1,5 +1,6 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python3.8
 # sudo apt install parallel jpegoptim
+# pip install awscli
 import subprocess
 import click
 import os
