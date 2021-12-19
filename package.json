@@ -1,0 +1,91 @@
+{
+  "name": "lipsurf.com",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "deploy": "./deploy.py",
+    "update": "git diff-index --ignore-submodules --cached --quiet HEAD -- && ./deploy.py && git add src/views/Updates.vue && git cm 'updates page' && git push",
+    "watch": "vue-cli-service serve --port 8082 --skip-plugins @vue/cli-plugin-eslint"
+  },
+  "dependencies": {
+    "@mdi/font": "5.9.55",
+    "amplitude-js": "^5.6.0",
+    "axios": "^0.18.0",
+    "core-js": "^3.6.5",
+    "date-fns": "^2.13.0",
+    "firebase": "^7.14.4",
+    "firebaseui": "^4.5.0",
+    "lottie-web": "^5.6.8",
+    "vue": "^3.2.0",
+    "vue-js-toggle-button": "^1.3.1",
+    "vue-router": "^4.0.0-0",
+    "vue-scroll-reveal": "^1.0.11",
+    "vuetify": "^3.0.0-alpha.12"
+  },
+  "devDependencies": {
+    "@lipsurf/common": "link:../common/dist",
+    "@lipsurf/types": "^2.0.0",
+    "@types/amplitude-js": "^4.4.5",
+    "@types/stripe-checkout": "^1.0.3",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "@vue/cli": "^5.0.0-rc.1",
+    "@vue/cli-plugin-babel": "^5.0.0-rc.1",
+    "@vue/cli-plugin-eslint": "^4.5.0",
+    "@vue/cli-plugin-router": "^5.0.0-rc.1",
+    "@vue/cli-plugin-typescript": "^5.0.0-rc.1",
+    "@vue/cli-service": "^5.0.0-rc.1",
+    "@vue/compiler-sfc": "^3.2.0",
+    "@vue/eslint-config-typescript": "^7.0.0",
+    "cheerio": "^1.0.0-rc.2",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^7.0.0",
+    "prerender-spa-plugin": "^3.4.0",
+    "size-plugin": "^2.0.1",
+    "typescript": "~4.1.5",
+    "vue-cli-plugin-vuetify": "~2.4.5",
+    "vue-cli-plugin-webpack-bundle-analyzer": "~4.0.0",
+    "vue-loader-v16": "^16.0.0-beta.5.4",
+    "vue-svg-loader": "beta",
+    "vuetify-loader": "^2.0.0-alpha.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended",
+      "@vue/typescript/recommended"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2020
+    },
+    "ignorePatterns": [
+      "commit/dist/**",
+      "../packages/**",
+      "@lipsurf/common",
+      "*.js"
+    ],
+    "rules": {
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/ban-ts-comment": "off"
+    }
+  },
+  "eslintIgnore": [
+    "node_modules/**",
+    "packages/common/**",
+    "*.js"
+  ],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "engines": {
+    "node": ">=10"
+  }
+}

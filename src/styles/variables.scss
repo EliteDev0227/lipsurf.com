@@ -1,0 +1,18 @@
+$body-font-family: "Barlow", sans-serif;
+$font-size-root: 20px;
+$btn-font-size: 16px;
+$btn-large-font-size: 20px;
+$btn-text-transform: none;
+$color-pack: false;
+// this will cover the decorative bg on /landing
+$material-light: (
+    background: transparent,
+);
+$font-weight: (
+    thin: 300,
+    light: 300,
+    regular: 500,
+    medium: 500,
+    bold: 800,
+    black: 800,
+);

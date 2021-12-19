@@ -1,0 +1,8 @@
+.bg-decor {
+    left: 0;
+    top: -770px;
+    position: relative;
+    /* overrides some vuetify svg property */
+    overflow: visible !important;
+    z-index: -1;
+}

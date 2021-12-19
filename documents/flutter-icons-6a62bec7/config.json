@@ -1,0 +1,70 @@
+{
+  "name": "LipSurf",
+  "css_prefix_text": "",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "12f4ece88e46abd864e40b35e05b11cd",
+      "css": "ok",
+      "code": 59392,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "d2fb362ab2a935c30da2afd66a9dc1b7",
+      "css": "shopping_cart",
+      "code": 59394,
+      "src": "material"
+    },
+    {
+      "uid": "8486605acad5af293679d4607fd47e87",
+      "css": "mail_outline",
+      "code": 59395,
+      "src": "material"
+    },
+    {
+      "uid": "d816ec534a30be75b5be04c70a5ba7b1",
+      "css": "phone",
+      "code": 59396,
+      "src": "material"
+    },
+    {
+      "uid": "51fb22f9ff9d7f60c95ef31e4c59502d",
+      "css": "comment",
+      "code": 62636,
+      "src": "mfglabs"
+    },
+    {
+      "uid": "b02e3b673f9e8f0a09673fcd0d82e7b3",
+      "css": "forum",
+      "code": 59397,
+      "src": "material"
+    },
+    {
+      "uid": "eb77c8027d60e595b6787551564ddf3b",
+      "css": "check_circle",
+      "code": 59398,
+      "src": "material"
+    },
+    {
+      "uid": "8f28d948aa6379b1a69d2a090e7531d4",
+      "css": "warning-empty",
+      "code": 59399,
+      "src": "typicons"
+    },
+    {
+      "uid": "7yekfd0qlkgp6emwfbo10sjdmf8pewli",
+      "css": "download",
+      "code": 59400,
+      "src": "typicons"
+    },
+    {
+      "uid": "5278ef7773e948d56c4d442c8c8c98cf",
+      "css": "lightbulb",
+      "code": 61675,
+      "src": "fontawesome"
+    }
+  ]
+}
