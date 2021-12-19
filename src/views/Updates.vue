@@ -1461,7 +1461,7 @@
           </section>
           <section class="tip notice warning">
             <h4>
-              <IconBase name="tip"> <LightbulbIcon /> </IconBase>Tip of the
+              <IconBase name="tip"> <img svg-inline svg-sprite src="@lipsurf/common/assets/icons/lightbulb.svg"> </IconBase>Tip of the
               Update
             </h4>
             <p>
@@ -1523,7 +1523,7 @@
           </section>
           <section class="tip notice warning">
             <h4>
-              <IconBase name="tip"> <LightbulbIcon /> </IconBase>Tip of the
+              <IconBase name="tip"><img svg-inline svg-sprite src="@lipsurf/common/assets/icons/lightbulb.svg"></IconBase> Tip of the
               Update
             </h4>
             <p>
@@ -1652,7 +1652,7 @@
           </ul>
           <section>
             <h4>
-              <IconBase name="tip"> <LightbulbIcon /> </IconBase>Tip of the
+              <IconBase name="tip"> <img svg-inline svg-sprite src="@lipsurf/common/assets/icons/lightbulb.svg"> </IconBase>Tip of the
               Update
             </h4>
             <p>
@@ -1686,7 +1686,7 @@
           </div>
           <section class="tip notice warning">
             <h4>
-              <IconBase name="tip"> <LightbulbIcon /> </IconBase>Tip of the
+              <IconBase name="tip"> <img svg-inline svg-sprite src="@lipsurf/common/assets/icons/lightbulb.svg"> </IconBase>Tip of the
               Update
             </h4>
             <p>
@@ -1745,7 +1745,7 @@
           </div>
           <section class="tip notice warning">
             <h4>
-              <IconBase name="tip"> <LightbulbIcon /> </IconBase>Tip of the
+              <IconBase name="tip"> <img svg-inline svg-sprite src="@lipsurf/common/assets/icons/lightbulb.svg"> </IconBase>Tip of the
               Update
             </h4>
             <p>
@@ -1788,7 +1788,7 @@
           </ul>
           <section class="tip notice warning">
             <h4>
-              <IconBase name="tip"> <LightbulbIcon /> </IconBase>Tip of the
+              <IconBase name="tip"> <img svg-inline svg-sprite src="@lipsurf/common/assets/icons/lightbulb.svg"> </IconBase>Tip of the
               Update
             </h4>
             <p>
@@ -1822,7 +1822,7 @@
             </ul>
             <section class="tip notice warning">
               <h4>
-                <IconBase name="tip"> <LightbulbIcon /> </IconBase>Tip of the
+                <IconBase name="tip"> <img svg-inline svg-sprite src="@lipsurf/common/assets/icons/lightbulb.svg"> </IconBase>Tip of the
                 Update
               </h4>
               <p>
@@ -1920,22 +1920,11 @@ video {
   margin: 30px 0 0 0;
 }
 </style>
-<script lang="ts">
+<script lang="ts" setup>
 import BaseLayout from "./BaseLayout.vue";
 import UpdateEntry from "../components/UpdateEntry.vue";
 import { IconBase } from "@lipsurf/common/components";
 import FLbl from "../components/FLbl.vue";
 
-import LightbulbIcon from "@lipsurf/common/assets/icons/lightbulb.svg?inline";
 // import WakeWordUpdatesImg from '@lipsurf/common/assets/updates-wake-word.png';
-
-export default {
-  components: {
-    BaseLayout,
-    UpdateEntry,
-    FLbl,
-    IconBase,
-    LightbulbIcon,
-  },
-};
 </script>

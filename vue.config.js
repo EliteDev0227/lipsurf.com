@@ -77,7 +77,7 @@ module.exports = {
   },
   chainWebpack: config => {
     // this fixes issues with having vuetify deps in @lipsurf/common components
-    // config.resolve.symlinks(false)
+    config.resolve.symlinks(false)
 
     // prevent double inclusion
     // config.resolve.alias
@@ -87,18 +87,14 @@ module.exports = {
       // .set('firebase/app', 'firebase/app/dist/index.esm.js')
       // .set('firebase/auth', 'firebase/auth/dist/index.esm.js')
       // .set('firebase', 'firebase')
-      ;
-    // const svgRule = config.module.rule('svg');
-
-    // svgRule.uses.clear();
-
-    // svgRule
-    //   .use('vue-loader')
-    //   .loader('vue-loader-v16')
-    //   .end()
-    //   .use('vue-svg-loader')
-    //   .loader('vue-svg-loader');
-
+      // ;
+    
+    config.module
+			.rule("vue")
+			.use("vue-svg-inline-loader")
+				.loader("vue-svg-inline-loader")
+				.options({ /* ... */ });
+    
     config
       .plugin('define')
       .tap(args => {
@@ -110,7 +106,6 @@ module.exports = {
               'AMPLITUDE_KEY',
             ].reduce((memo, val) => ({...memo, [`process.env.${val}`]: JSON.stringify(process.env[val])}), {}),
           }
-          console.log('args', args)
           return args
        })
     

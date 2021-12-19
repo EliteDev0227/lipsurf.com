@@ -24,12 +24,12 @@
           <ul>
             <li>
               <IconBase name="checkmark">
-                <CheckIcon /> </IconBase
+                <img svg-inline svg-sprite src="@lipsurf/common/assets/icons/check.svg"> </IconBase
               >Over 100 commands
             </li>
             <li>
               <IconBase name="checkmark">
-                <CheckIcon /> </IconBase
+                <img svg-inline svg-sprite src="@lipsurf/common/assets/icons/check.svg"> </IconBase
               >Community plugins
             </li>
           </ul>
@@ -53,17 +53,17 @@
           <ul>
             <li>
               <IconBase name="checkmark">
-                <CheckIcon /> </IconBase
+                <img svg-inline svg-sprite src="@lipsurf/common/assets/icons/check.svg"> </IconBase
               >WaniKani reviews
             </li>
             <li>
               <IconBase name="checkmark">
-                <CheckIcon /> </IconBase
+                <img svg-inline svg-sprite src="@lipsurf/common/assets/icons/check.svg"> </IconBase
               >Duolingo
             </li>
             <li>
               <IconBase name="checkmark">
-                <CheckIcon /> </IconBase
+                <img svg-inline svg-sprite src="@lipsurf/common/assets/icons/check.svg"> </IconBase
               >Email and phone support
             </li>
           </ul>
@@ -87,22 +87,22 @@
           <ul>
             <li>
               <IconBase name="checkmark">
-                <CheckIcon /> </IconBase
+                <img svg-inline svg-sprite src="@lipsurf/common/assets/icons/check.svg"> </IconBase
               >All features in PLUS
             </li>
             <li>
               <IconBase name="checkmark">
-                <CheckIcon /> </IconBase
+                <img svg-inline svg-sprite src="@lipsurf/common/assets/icons/check.svg"> </IconBase
               >Dictate text
             </li>
             <li>
               <IconBase name="checkmark">
-                <CheckIcon /> </IconBase
+                <img svg-inline svg-sprite src="@lipsurf/common/assets/icons/check.svg"> </IconBase
               >Go to custom URLs
             </li>
             <li>
               <IconBase name="checkmark">
-                <CheckIcon />
+                <img svg-inline svg-sprite src="@lipsurf/common/assets/icons/check.svg">
               </IconBase>
               <slot name="wake-word">Wake-word</slot>
             </li>
@@ -244,7 +244,6 @@
 import { PREMIUM_PLAN, FREE_PLAN, PLUS_PLAN } from "@lipsurf/common/constants";
 import { IconBase } from "@lipsurf/common/components";
 import { PLAN_TO_PRICE } from "../constants";
-import CheckIcon from "@lipsurf/common/assets/icons/check.svg?inline";
 // import ToggleButton from "vue-js-toggle-button";
 import { ref } from "vue";
 
@@ -258,7 +257,6 @@ interface IProps {
 export default {
   components: {
     IconBase,
-    CheckIcon,
   },
 
   props: {

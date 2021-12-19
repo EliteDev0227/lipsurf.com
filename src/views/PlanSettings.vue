@@ -19,7 +19,7 @@
             >
               <span>
                 <IconBase class="icon" name="error">
-                  <ErrorSvg />
+                  <img svg-inline src="@lipsurf/common/assets/icons/error.svg"/>
                 </IconBase>
                 <span v-html="msg"></span>
                 Your last payment failed. Please add a new card.
@@ -203,7 +203,7 @@
 }
 </style>
 
-<script lang="ts">
+<script lang="ts" setup>
 import BaseLayout from "./BaseLayout.vue";
 import { Loading, Notice } from "@lipsurf/common/components";
 import PricingFaqs from "../components/PricingFaqs.vue";
@@ -235,306 +235,285 @@ interface Card {
 }
 
 const DATE_FMT = "iiii, LLLL d, y";
+const router = useRouter();
+const route = useRoute();
 
-export default {
-  components: {
-    BaseLayout,
-    Loading,
-    Notice,
-    PricingFeatures,
-    PricingFaqs,
-  },
+const noticeType = ref<NotificationType>("error");
+const noticeMsg = ref<string|null>("");
+const showNotice = ref(false);
 
-  setup() {
-    const router = useRouter();
-    const route = useRoute();
+const paymentProblem = ref(false);
 
-    const noticeType = ref<NotificationType>("error");
-    const noticeMsg = ref<string|null>("");
-    const showNotice = ref(false);
+const yearlyToggledOn = ref(true);
+const faqExpansion = ref(-1);
 
-    const paymentProblem = ref(false);
+const cards = ref<(CardSummarized | {})[]>([]);
+const lastPaidNicePlan = ref("");
+const curNicePlan = ref("");
+const cost = ref("");
 
-    const yearlyToggledOn = ref(true);
-    const faqExpansion = ref(-1);
+const status = ref<API.PlanSettingsSuccess["status"] | null>(null);
+const renewAt = ref<string | null>(null);
+const curPlan = ref<plan | null>(null);
+const cancelAt = ref<string | null>(null);
+const endedAt = ref<string | null>(null);
+const term = ref<Term | null>(null);
+const cancelFuture = ref(false);
 
-    const cards = ref<(CardSummarized | {})[]>([]);
-    const lastPaidNicePlan = ref("");
-    const curNicePlan = ref("");
-    const cost = ref("");
+const loading = ref(true);
+// if there was an error getting sub info
+const dontShowPage = ref(false);
 
-    const status = ref<API.PlanSettingsSuccess["status"] | null>(null);
-    const renewAt = ref<string | null>(null);
-    const curPlan = ref<plan | null>(null);
-    const cancelAt = ref<string | null>(null);
-    const endedAt = ref<string | null>(null);
-    const term = ref<Term | null>(null);
-    const cancelFuture = ref(false);
+const email = ref("");
 
-    const loading = ref(true);
-    // if there was an error getting sub info
-    const dontShowPage = ref(false);
+let successMsg = route.query.success as string | null;
+if (successMsg) toast(false, successMsg);
 
-    const email = ref("");
+let errorMsg = route.query.error as string | null;
+if (errorMsg) toast(true, errorMsg, false);
 
-    let successMsg = route.query.success as string | null;
-    if (successMsg) toast(false, successMsg);
+const checkoutSessionId = route.query.checkoutSessionId as
+  | string
+  | null;
 
-    let errorMsg = route.query.error as string | null;
-    if (errorMsg) toast(true, errorMsg, false);
+const addingCard = !!route.query.addingCard;
 
-    const checkoutSessionId = route.query.checkoutSessionId as
-      | string
-      | null;
+const waitingForAuth = window.setTimeout(() => {
+  noUser();
+}, 5000);
 
-    const addingCard = !!route.query.addingCard;
+window.firebaseApp.auth().onAuthStateChanged(async user => {
+  clearTimeout(waitingForAuth);
+  if (!user) {
+    noUser();
+  } else {
+    email.value = user.email!;
+    const firebaseIdToken = await user!.getIdToken();
+    if (addingCard) {
+      let resp: API.AddNewCardResp;
+      let query = { ...route.query };
+      delete query.addingCard;
+      delete query.checkoutSessionId;
+      router.replace({ query });
 
-    const waitingForAuth = window.setTimeout(() => {
-      noUser();
-    }, 5000);
-
-    window.firebaseApp.auth().onAuthStateChanged(async user => {
-      clearTimeout(waitingForAuth);
-      if (!user) {
-        noUser();
-      } else {
-        email.value = user.email!;
-        const firebaseIdToken = await user!.getIdToken();
-        if (addingCard) {
-          let resp: API.AddNewCardResp;
-          let query = { ...route.query };
-          delete query.addingCard;
-          delete query.checkoutSessionId;
-          router.replace({ query });
-
-          try {
-            // just gather plan deets
-            resp = await addCardUsingCheckoutSession(
-              firebaseIdToken,
-              checkoutSessionId!
-            );
-            toast(false, "Successfully added new card.");
-          } catch (e: any) {
-            toast(true, e.message, false);
-            return;
-          } finally {
-            loading.value = false;
-          }
-
-          populate(resp);
-        } else {
-          let resp: API.PlanSettingsResp;
-
-          try {
-            // just gather plan deets
-            resp = await getPlanSettings(firebaseIdToken);
-          } catch (e: any) {
-            if (e instanceof NotFoundError) {
-              resp = {
-                plan: FREE_PLAN,
-                costInCents: 0,
-              };
-            } else {
-              toast(true, e.message);
-              return;
-            }
-          } finally {
-            loading.value = false;
-          }
-
-          populate(resp as API.PlanSettingsSuccess);
-        }
-      }
-    });
-
-    function getBtnProps(plan: plan) {
-      console.log("recalcing get btn props");
-      if (curPlan.value === null) {
-        return { label: "Upgrade", disabled: true };
-      } else {
-        if (cancelAt.value) {
-          if (plan === FREE_PLAN) {
-            return { label: "Already Downgraded", disabled: true };
-          } else if (
-            curPlan.value === plan &&
-            ((term.value === "monthly" && !yearlyToggledOn.value) ||
-              (term.value === "yearly" && yearlyToggledOn.value))
-          ) {
-            return { label: "Reinstate", disabled: false };
-          } else {
-            return { label: "Upgrade", disabled: false };
-          }
-        } else {
-          if (curPlan.value === plan) {
-            if (yearlyToggledOn.value && term.value === "monthly") {
-              return { label: "Go Yearly", disabled: false };
-            } else if (!yearlyToggledOn.value && term.value === "yearly") {
-              return { label: "Go Monthly", disabled: false };
-            } else {
-              return { label: "Your Plan", disabled: true };
-            }
-          } else {
-            if (plan > curPlan.value || cancelAt.value) {
-              return { label: "Upgrade", disabled: false };
-            } else {
-              return { label: "Downgrade", disabled: false };
-            }
-          }
-        }
-      }
-    }
-
-    async function createCheckout(plan?: plan, term?: Term) {
-      loading.value = true;
-      showNotice.value = false;
-      const user = window.firebaseApp.auth().currentUser;
-      const firebaseIdToken = await user!.getIdToken();
       try {
-        const sessionId = await createCheckoutSession(
+        // just gather plan deets
+        resp = await addCardUsingCheckoutSession(
           firebaseIdToken,
-          true,
-          plan,
-          term
+          checkoutSessionId!
         );
-
-        const result = await (await getStripe()).redirectToCheckout({
-          // Make the id field from the Checkout Session creation API response
-          // available to this file, so you can provide it as parameter here
-          // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-          sessionId,
-        });
-        // If `redirectToCheckout` fails due to a browser or network
-        // error, display the localized error message to your customer
-        // using `result.error.message`.
-        if (result.error.message) {
-          toast(true, result.error.message);
-        }
-      } catch (e) {
+        toast(false, "Successfully added new card.");
+      } catch (e: any) {
         toast(true, e.message, false);
-      }
-    }
-
-    // TODO: display an error message
-    function noUser() {
-      console.log("Seems like there's no user");
-      router.push({ name: "login" });
-    }
-
-    function toast(error: boolean, msg: string, _dontShowPage = true) {
-      showNotice.value = true;
-      noticeType.value = error ? "error" : "success";
-      noticeMsg.value = msg;
-      loading.value = false;
-      dontShowPage.value = error && _dontShowPage;
-    }
-
-    function populate(resp: API.PlanSettingsSuccess) {
-      if ("status" in resp) {
-        cards.value = resp.cards;
-        term.value = resp.term;
-        status.value = resp.status;
-        endedAt.value = resp.endedAt
-          ? format(resp.endedAt * 1000, DATE_FMT)
-          : null;
-        renewAt.value = resp.renewAt
-          ? format(resp.renewAt * 1000, DATE_FMT)
-          : null;
-        cancelAt.value = resp.cancelAt
-          ? format(resp.cancelAt * 1000, DATE_FMT)
-          : null;
-
-        if (
-          ["incomplete", "incomplete_expired", "past_due", "unpaid"].includes(
-            resp.status
-          )
-        )
-          paymentProblem.value = true;
+        return;
+      } finally {
+        loading.value = false;
       }
 
-      lastPaidNicePlan.value = PLAN_TO_NICE[resp.plan];
-      curPlan.value = "endedAt" in resp && resp.endedAt ? FREE_PLAN : resp.plan;
-      curNicePlan.value = PLAN_TO_NICE[curPlan.value];
-      cost.value = (resp.costInCents / 100).toFixed(0);
-    }
+      populate(resp);
+    } else {
+      let resp: API.PlanSettingsResp;
 
-    return {
-      PREMIUM_PLAN,
-      PLUS_PLAN,
-      FREE_PLAN,
-
-      noticeType,
-
-      get freeBtn() {
-        return getBtnProps(FREE_PLAN);
-      },
-
-      get plusBtn() {
-        return getBtnProps(PLUS_PLAN);
-      },
-
-      get premiumBtn() {
-        return getBtnProps(PREMIUM_PLAN);
-      },
-
-      addCard() {
-        return createCheckout();
-      },
-
-      signOut() {
-        return window.firebaseApp.auth().signOut();
-      },
-
-      async makeDefault(paymentMethodId: string) {
-        const user = window.firebaseApp.auth().currentUser;
-        const firebaseIdToken = await user!.getIdToken();
-        try {
-          // update card
-          loading.value = true;
-          const resp = await updatePlanSettings(firebaseIdToken, {
-            paymentMethodId,
-          });
-          cards.value = resp.cards;
-          toast(false, "Successfully changed default payment method.");
-        } catch (e:any) {
-          toast(true, e.message);
-        } finally {
-          loading.value = false;
-        }
-      },
-
-      /**
-       * @param plan the new plan
-       * @param term the new term
-       */
-      async changePlan(plan: plan) {
-        const term = yearlyToggledOn.value ? "yearly" : "monthly";
-        const user = window.firebaseApp.auth().currentUser;
-        const firebaseIdToken = await user!.getIdToken();
-
-        // unpaid is basically the same as canceled. Our stripe settings make it
-        // so subscriptions will be canceled if they're unpaid so unlikely we'll see
-        // an unpaid status
-        if (cards.value.length === 0) {
-          await createCheckout(plan, term);
+      try {
+        // just gather plan deets
+        resp = await getPlanSettings(firebaseIdToken);
+      } catch (e: any) {
+        if (e instanceof NotFoundError) {
+          resp = {
+            plan: FREE_PLAN,
+            costInCents: 0,
+          };
         } else {
-          try {
-            // update subscription
-            loading.value = true;
-            const resp = await updatePlanSettings(firebaseIdToken, {
-              plan,
-              term,
-            });
-            populate(resp);
-            toast(false, "Successfully changed subscription.");
-          } catch (e: any) {
-            toast(true, e.message);
-          } finally {
-            loading.value = false;
-          }
+          toast(true, e.message);
+          return;
         }
-      },
+      } finally {
+        loading.value = false;
+      }
 
-    };
-  },
+      populate(resp as API.PlanSettingsSuccess);
+    }
+  }
+});
+
+function getBtnProps(plan: plan) {
+  console.log("recalcing get btn props");
+  if (curPlan.value === null) {
+    return { label: "Upgrade", disabled: true };
+  } else {
+    if (cancelAt.value) {
+      if (plan === FREE_PLAN) {
+        return { label: "Already Downgraded", disabled: true };
+      } else if (
+        curPlan.value === plan &&
+        ((term.value === "monthly" && !yearlyToggledOn.value) ||
+          (term.value === "yearly" && yearlyToggledOn.value))
+      ) {
+        return { label: "Reinstate", disabled: false };
+      } else {
+        return { label: "Upgrade", disabled: false };
+      }
+    } else {
+      if (curPlan.value === plan) {
+        if (yearlyToggledOn.value && term.value === "monthly") {
+          return { label: "Go Yearly", disabled: false };
+        } else if (!yearlyToggledOn.value && term.value === "yearly") {
+          return { label: "Go Monthly", disabled: false };
+        } else {
+          return { label: "Your Plan", disabled: true };
+        }
+      } else {
+        if (plan > curPlan.value || cancelAt.value) {
+          return { label: "Upgrade", disabled: false };
+        } else {
+          return { label: "Downgrade", disabled: false };
+        }
+      }
+    }
+  }
 }
+
+async function createCheckout(plan?: plan, term?: Term) {
+  loading.value = true;
+  showNotice.value = false;
+  const user = window.firebaseApp.auth().currentUser;
+  const firebaseIdToken = await user!.getIdToken();
+  try {
+    const sessionId = await createCheckoutSession(
+      firebaseIdToken,
+      true,
+      plan,
+      term
+    );
+
+    const result = await (await getStripe()).redirectToCheckout({
+      // Make the id field from the Checkout Session creation API response
+      // available to this file, so you can provide it as parameter here
+      // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+      sessionId,
+    });
+    // If `redirectToCheckout` fails due to a browser or network
+    // error, display the localized error message to your customer
+    // using `result.error.message`.
+    if (result.error.message) {
+      toast(true, result.error.message);
+    }
+  } catch (e: any) {
+    toast(true, e.message, false);
+  }
+}
+
+// TODO: display an error message
+function noUser() {
+  console.log("Seems like there's no user");
+  router.push({ name: "login" });
+}
+
+function toast(error: boolean, msg: string, _dontShowPage = true) {
+  showNotice.value = true;
+  noticeType.value = error ? "error" : "success";
+  noticeMsg.value = msg;
+  loading.value = false;
+  dontShowPage.value = error && _dontShowPage;
+}
+
+function populate(resp: API.PlanSettingsSuccess) {
+  if ("status" in resp) {
+    cards.value = resp.cards;
+    term.value = resp.term;
+    status.value = resp.status;
+    endedAt.value = resp.endedAt
+      ? format(resp.endedAt * 1000, DATE_FMT)
+      : null;
+    renewAt.value = resp.renewAt
+      ? format(resp.renewAt * 1000, DATE_FMT)
+      : null;
+    cancelAt.value = resp.cancelAt
+      ? format(resp.cancelAt * 1000, DATE_FMT)
+      : null;
+
+    if (
+      ["incomplete", "incomplete_expired", "past_due", "unpaid"].includes(
+        resp.status
+      )
+    )
+      paymentProblem.value = true;
+  }
+
+  lastPaidNicePlan.value = PLAN_TO_NICE[resp.plan];
+  curPlan.value = "endedAt" in resp && resp.endedAt ? FREE_PLAN : resp.plan;
+  curNicePlan.value = PLAN_TO_NICE[curPlan.value];
+  cost.value = (resp.costInCents / 100).toFixed(0);
+}
+
+function freeBtn() {
+  return getBtnProps(FREE_PLAN);
+}
+
+function plusBtn() {
+  return getBtnProps(PLUS_PLAN);
+}
+
+function premiumBtn() {
+  return getBtnProps(PREMIUM_PLAN);
+}
+
+function addCard() {
+  return createCheckout();
+}
+
+function signOut() {
+  return window.firebaseApp.auth().signOut();
+}
+
+async function makeDefault(paymentMethodId: string) {
+  const user = window.firebaseApp.auth().currentUser;
+  const firebaseIdToken = await user!.getIdToken();
+  try {
+    // update card
+    loading.value = true;
+    const resp = await updatePlanSettings(firebaseIdToken, {
+      paymentMethodId,
+    });
+    cards.value = resp.cards;
+    toast(false, "Successfully changed default payment method.");
+  } catch (e:any) {
+    toast(true, e.message);
+  } finally {
+    loading.value = false;
+  }
+}
+
+/**
+ * @param plan the new plan
+ * @param term the new term
+ */
+async function changePlan(plan: plan) {
+  const term = yearlyToggledOn.value ? "yearly" : "monthly";
+  const user = window.firebaseApp.auth().currentUser;
+  const firebaseIdToken = await user!.getIdToken();
+
+  // unpaid is basically the same as canceled. Our stripe settings make it
+  // so subscriptions will be canceled if they're unpaid so unlikely we'll see
+  // an unpaid status
+  if (cards.value.length === 0) {
+    await createCheckout(plan, term);
+  } else {
+    try {
+      // update subscription
+      loading.value = true;
+      const resp = await updatePlanSettings(firebaseIdToken, {
+        plan,
+        term,
+      });
+      populate(resp);
+      toast(false, "Successfully changed subscription.");
+    } catch (e: any) {
+      toast(true, e.message);
+    } finally {
+      loading.value = false;
+    }
+  }
+}
+
 </script>

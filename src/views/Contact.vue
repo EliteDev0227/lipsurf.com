@@ -7,7 +7,7 @@
           <tr>
             <td>
               <IconBase name="mail">
-                <MailIcon />
+                <img svg-inline src="@lipsurf/common/assets/icons/mail-outline.svg" />
               </IconBase>
             </td>
             <td><a href="mailto:help@lipsurf.com">help@lipsurf.com</a></td>
@@ -15,7 +15,7 @@
           <tr>
             <td>
               <IconBase name="chat">
-                <ChatIcon />
+                <img svg-inline src="@lipsurf/common/assets/icons/comment.svg" />
               </IconBase>
             </td>
             <td><a href="https://discuss.lipsurf.com">Forums</a></td>
@@ -23,7 +23,7 @@
           <tr>
             <td>
               <IconBase name="phone">
-                <PhoneIcon />
+                <img svg-inline src="@lipsurf/common/assets/icons/phone.svg" />
               </IconBase>
             </td>
             <td>
@@ -54,8 +54,5 @@ td {
 <script lang="ts" setup>
 import BaseLayout from "./BaseLayout.vue";
 import { IconBase } from "@lipsurf/common/components";
-import MailIcon from "@lipsurf/common/assets/icons/mail-outline.svg?inline";
-import ChatIcon from "@lipsurf/common/assets/icons/comment.svg?inline";
-import PhoneIcon from "@lipsurf/common/assets/icons/phone.svg?inline";
 </script>
 

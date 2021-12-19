@@ -171,13 +171,11 @@
 
 <script lang="ts" setup>
 /// <reference types="amplitude-js"/>
-import { watch } from 'vue';
 import BaseLayout from "./BaseLayout.vue";
 import ReinstallBtn from "../components/ReinstallBtn.vue";
 import amplitude from "amplitude-js/amplitude";
 import { AMPLITUDE_KEY, API_BASE_URL, DEBUG } from "@lipsurf/common/constants";
-import { onMounted } from 'vue';
-import { ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 let FORM_DATA_DEFAULT = {
@@ -224,10 +222,9 @@ watch(formData, (newVal: FormData, oldVal: FormData) => {
     // filter out blank and false values
     const reducedUpdates = Object.entries(newVal).reduce((memo, [key, val]) => {
       if (val !== false && val !== "")
-        // @ts-ignore
         memo[key] = val;
       return memo;
-    }, <Partial<FormData>>{});
+    }, {} as Partial<FormData>);
     doc.update({
       ...reducedUpdates,
       created: window.firebase.firestore.FieldValue.serverTimestamp(),

@@ -99,7 +99,7 @@
 }
 </style>
 
-<script lang="ts">
+<script lang="ts" setup>
 import BaseLayout from "./BaseLayout.vue";
 import {
   PLUS_PLAN,
@@ -123,189 +123,163 @@ import { getStripe } from "../stripe";
 import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
 
-export default {
-  components: {
-    BaseLayout,
-    InstallBtn,
-    SignInModal,
-    Loading,
-    Notice,
-    PricingFeatures,
-    PricingFaqs,
-  },
+const route = useRoute();
+const router = useRouter();
 
-  setup() {
-    const route = useRoute();
-    const router = useRouter();
+const loading = ref(false);
+const faqExpansion = ref(-1);
+const showSignInModal = ref(false);
+const yearlyToggledOn = ref(true);
+const selectedPlan = ref<plan|undefined>(undefined);
+const coupon = ref<FrontendCoupon|undefined>(undefined);
+const snackbar = ref(false);
+let user: firebase.User | null = null;
+const notice = ref({
+  show: false,
+  msg: "",
+  type: "error" as NotificationType,
+  loading: false,
+});
 
-    const loading = ref(false);
-    const faqExpansion = ref(-1);
-    const showSignInModal = ref(false);
-    const yearlyToggledOn = ref(true);
-    const selectedPlan = ref<plan|undefined>(undefined);
-    const coupon = ref<FrontendCoupon|undefined>(undefined);
-    const snackbar = ref(false);
-    let user: firebase.User | null = null;
-    const notice = ref({
-      show: false,
-      msg: "",
-      type: <NotificationType>"error",
-      loading: false,
-    });
+onMounted(() => {
+  yearlyToggledOn.value = route.query?.term === "monthly" ? false : true;
 
-    onMounted(() => {
-      yearlyToggledOn.value = route.query.term === "monthly" ? false : true;
-
-      const error = route.query.error as string | null;
-      if (error) {
-        notify("error", error);
-      }
-    });
+  const error = route.query?.error as string | null;
+  if (error) {
+    notify("error", error);
+  }
+});
 
 
-    window.firebaseApp.auth().onAuthStateChanged(_user => {
-      user = _user;
-    });
+window.firebaseApp.auth().onAuthStateChanged(_user => {
+  user = _user;
+});
 
-    let couponId: string = <string | null>route.query.couponId || "";
-    if (couponId) {
-      notice.value.loading = true;
-      notify("info", "Verifying coupon...");
-      (async () => {
-        try {
-          const _coupon = (await verifyCoupon(couponId)).data;
+let couponId = route.query.couponId as string|null || "";
+if (couponId) {
+  notice.value.loading = true;
+  notify("info", "Verifying coupon...");
+  (async () => {
+    try {
+      const _coupon = (await verifyCoupon(couponId)).data;
 
-          if (_coupon.valid) {
-            const basePrice =
-              PLAN_TO_PRICE[PREMIUM_PLAN][
-                yearlyToggledOn.value ? "yearly" : "monthly"
-              ];
-            coupon.value = {
-              valid: true,
-              name: _coupon.name,
-              yearlyCents:
-                _coupon.amountOff !== null
-                  ? basePrice - _coupon.amountOff
-                  : (basePrice * (100 - _coupon.percentOff)) / 100,
-              yearlyPriceDesc: "$57.60 this year, and $72 for subsequent years",
-            };
+      if (_coupon.valid) {
+        const basePrice =
+          PLAN_TO_PRICE[PREMIUM_PLAN][
+            yearlyToggledOn.value ? "yearly" : "monthly"
+          ];
+        coupon.value = {
+          valid: true,
+          name: _coupon.name,
+          yearlyCents:
+            _coupon.amountOff !== null
+              ? basePrice - _coupon.amountOff
+              : (basePrice * (100 - _coupon.percentOff)) / 100,
+          yearlyPriceDesc: "$57.60 this year, and $72 for subsequent years",
+        };
 
-            couponId = _coupon.id;
-            notify(
-              "success",
-              `Coupon "<strong>${_coupon.name}</strong>" applied 💰! You will see the reduced pricing in the next step (checkout).`
-            );
-          } else {
-            coupon.value = {
-              valid: false,
-              invalidReason: _coupon.invalidReason,
-              id: couponId,
-            };
-            notify(
-              "error",
-              `Unfortunately, the coupon code <strong>"${couponId}"</strong> is invalid 🙁`
-            );
-          }
-        } catch (e: any) {
-          notify("error", e.message);
-        } finally {
-          notice.value.loading = false;
-        }
-      })();
-    }
-
-    // todo: make a composition when vue 3 is ready
-    // vue 3 - this could be a mixin
-    function notify(type: NotificationType, msg: string) {
-      notice.value.show = true;
-      notice.value.msg = msg;
-      notice.value.type = type;
-      loading.value = false;
-    }
-
-    /**
-     *  Called after signing-in. Decide whether to take them to
-     *  customer dashboard or straight to stripe checkout
-     *  depending on whether they have cards saved.
-     */
-    async function delegateCheckoutOrDashboard() {
-      // this.user is not avail at this point
-      const user = window.firebaseApp.auth().currentUser!;
-      // if there is no card on file, take them straight to stripe checkout
-      // if a card is on file already, take them to the settings page
-      // so they can decide whether to add another card or upgrade the plan.
-      const userToken = await user.getIdToken();
-      try {
-        const planSettings = await getPlanSettings(userToken);
-        if (planSettings.cards.length)
-          return router.push({ name: "settings" });
-      } catch (e) {
-        if (e instanceof NotFoundError)
-          console.error("no sub data found for user");
-        else console.error(e);
-      }
-      loading.value = true;
-      await checkout(userToken);
-    }
-
-    async function checkout(firebaseIdToken: string) {
-      const term = yearlyToggledOn.value ? "yearly" : "monthly";
-      notice.value.show = false;
-      // TODO:
-      // GET /plan/settings
-      // if they have an active subscription, change it with POST
-      // otherwise continue on with this checkout
-      try {
-        const sessionId = await createCheckoutSession(
-          firebaseIdToken,
-          false,
-          selectedPlan.value,
-          term,
-          couponId
+        couponId = _coupon.id;
+        notify(
+          "success",
+          `Coupon "<strong>${_coupon.name}</strong>" applied 💰! You will see the reduced pricing in the next step (checkout).`
         );
-
-        const result = await (await getStripe()).redirectToCheckout({
-          // Make the id field from the Checkout Session creation API response
-          // available to this file, so you can provide it as parameter here
-          // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-          sessionId,
-        });
-        // If `redirectToCheckout` fails due to a browser or network
-        // error, display the localized error message to your customer
-        // using `result.error.message`.
-        if (result.error.message) {
-          notify("error", result.error.message);
-        }
-      } catch (e: any) {
-        notify("error", e);
+      } else {
+        coupon.value = {
+          valid: false,
+          invalidReason: _coupon.invalidReason,
+          id: couponId,
+        };
+        notify(
+          "error",
+          `Unfortunately, the coupon code <strong>"${couponId}"</strong> is invalid 🙁`
+        );
       }
+    } catch (e: any) {
+      notify("error", e.message);
+    } finally {
+      notice.value.loading = false;
     }
+  })();
+}
 
-    return {
-      loading,
-      yearlyToggledOn,
-      showSignInModal,
-      faqExpansion,
-      notice,
-      PLUS_PLAN,
-      PREMIUM_PLAN,
+// todo: make a composition when vue 3 is ready
+// vue 3 - this could be a mixin
+function notify(type: NotificationType, msg: string) {
+  notice.value.show = true;
+  notice.value.msg = msg;
+  notice.value.type = type;
+  loading.value = false;
+}
 
-      signOut() {
-        return window.firebaseApp.auth().signOut();
-      },
+/**
+ *  Called after signing-in. Decide whether to take them to
+ *  customer dashboard or straight to stripe checkout
+ *  depending on whether they have cards saved.
+ */
+async function delegateCheckoutOrDashboard() {
+  // this.user is not avail at this point
+  const user = window.firebaseApp.auth().currentUser!;
+  // if there is no card on file, take them straight to stripe checkout
+  // if a card is on file already, take them to the settings page
+  // so they can decide whether to add another card or upgrade the plan.
+  const userToken = await user.getIdToken();
+  try {
+    const planSettings = await getPlanSettings(userToken);
+    if (planSettings.cards.length)
+      return router.push({ name: "settings" });
+  } catch (e) {
+    if (e instanceof NotFoundError)
+      console.error("no sub data found for user");
+    else console.error(e);
+  }
+  loading.value = true;
+  await checkout(userToken);
+}
 
-      notify,
-      async buy(plan: plan) {
-        selectedPlan.value = plan;
-        if (user) {
-          delegateCheckoutOrDashboard();
-        } else {
-          showSignInModal.value = true;
-        }
-        return;
-      },
+async function checkout(firebaseIdToken: string) {
+  const term = yearlyToggledOn.value ? "yearly" : "monthly";
+  notice.value.show = false;
+  // TODO:
+  // GET /plan/settings
+  // if they have an active subscription, change it with POST
+  // otherwise continue on with this checkout
+  try {
+    const sessionId = await createCheckoutSession(
+      firebaseIdToken,
+      false,
+      selectedPlan.value,
+      term,
+      couponId
+    );
+
+    const result = await (await getStripe()).redirectToCheckout({
+      // Make the id field from the Checkout Session creation API response
+      // available to this file, so you can provide it as parameter here
+      // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+      sessionId,
+    });
+    // If `redirectToCheckout` fails due to a browser or network
+    // error, display the localized error message to your customer
+    // using `result.error.message`.
+    if (result.error.message) {
+      notify("error", result.error.message);
     }
-  },
+  } catch (e: any) {
+    notify("error", e);
+  }
+}
 
+function signOut() {
+  return window.firebaseApp.auth().signOut();
+}
+
+async function buy(plan: plan) {
+  selectedPlan.value = plan;
+  if (user) {
+    delegateCheckoutOrDashboard();
+  } else {
+    showSignInModal.value = true;
+  }
+  return;
 }
 </script>
