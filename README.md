@@ -1,21 +1,25 @@
-TODO:
+Setup
 ===
-- [ ] TOS
-* add email form so user can get a link later
-* New features should work this way:
-    * no need to calibrate setup. Works out of the box straight-away.
-    * Embeddable in any site
-    * Improve your Workflow - dont search through menubars for functionality -- just say it
-    * Shortcuts - Do things that would otherwise take multiple time-consuming steps with a single voice command (gifv of add event to google calendar)
-    * Internationalization -
+1. `yarn install`
 
-Lottie Animation:
+2. Create a .env.development file in the root directory with the following:
+
+    ```
+    AMPLITUDE_KEY=...
+    STRIPE_API_KEY=...
+    BUGSNAG_API_KEY=...
+    FIREBASE_API_KEY=...
+    ```
+
+3. `yarn watch` (by default runs on port 8082)
+
+Lottie Animation
 ===
-Export settings:
+## Export settings
 * Skip default properties: true
 * Remove expression properties: true
 
-Favicons:
+Favicons
 ===
 https://realfavicongenerator.net/
 

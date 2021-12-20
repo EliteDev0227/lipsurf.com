@@ -1,5 +1,4 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
@@ -25,7 +24,15 @@
       "dom",
       "dom.iterable",
       "scripthost"
-    ]
+    ],
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "incremental": true,
+    "noEmitOnError": true,
+    "strict": true,
+    "noUnusedLocals": false,
+    "noImplicitAny": false,
+    "moduleResolution": "node",
   },
   "include": [
     "src/**/*.ts",
