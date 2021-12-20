@@ -17,12 +17,6 @@ app.use(vuetify);
 // });
 app.mount('#app');
 
-// new Vue({
-//   vuetify,
-//   router,
-//   render: (h) => h(App),
-// }).$mount('#app');
-
 import firebase from 'firebase/app';
 import "firebase/auth";
 import "firebase/firestore";

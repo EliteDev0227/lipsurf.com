@@ -10,17 +10,22 @@ export default createVuetify({
 //   icons: {
 //     iconfont: 'mdi',
 //   },
-//   theme: {
-//     // variations: In practice, these generated styles are largely not used. If you do not utilize classes such as .primary--text text--lighten-2, it is ecommended that you disable theme variations.
-//     options: { minifyTheme, variations: false },
-//     themes: {
-//       light: {
-//         // dark primary color
-//         primary: '#367b94',
-//         secondary: '#e5fcfd',
-//         accent: '#3cc1d0',
-//         warning: '#fffad7',
-//       }
-//     },
-//   },
+  theme: {
+    // variations: In practice, these generated styles are largely not used. If you do not utilize classes such as .primary--text text--lighten-2, it is ecommended that you disable theme variations.
+    // options: { minifyTheme, variations: false },
+    themes: {
+      light: {
+        dark: false,
+        // @ts-ignore
+        colors: {
+          // dark primary color
+          primary: '#367b94',
+          secondary: '#e5fcfd',
+          accent: '#3cc1d0',
+          warning: '#fffad7',
+          background: '#fafafa',
+        }
+      }
+    },
+  },
 });
