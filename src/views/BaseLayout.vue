@@ -36,10 +36,12 @@
       <v-app-bar-nav-icon
         @click.stop="drawer = !drawer"
         class="hidden-md-and-up"
+        alt="navigation drawer"
       ></v-app-bar-nav-icon>
 
       <router-link
         :to="{ name: 'landing' }"
+        title="LipSurf Home"
         class="logo hidden-sm-and-down"
       ></router-link>
       <v-toolbar-title>

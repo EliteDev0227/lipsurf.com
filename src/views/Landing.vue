@@ -40,7 +40,9 @@
     </template>
     <template v-slot:outer>
       <div id="header-anim-cont">
-        <HeaderAnim id="header-anim" name="girl" />
+        <HeaderAnim id="header-anim" name="girl" 
+       alt='A young woman sits at her desk as she speaks commands to her computer. The computer reacts according to her voice commands, e.g. when she     says "down" the screen is shown scrolling down. A pleased cat is resting on her keyboard throughout.'
+        />
       </div>
       <v-container class="testimonials maxed">
         <v-row row wrap>
@@ -170,6 +172,7 @@
               loop
               poster
               class="desktop-only demo"
+              alt='Demo of user saying commands in Gmail. User: "select top three" [top 3 emails in inbox become selected]. User: "mark as read" [selected emails change from unread to read]. User: "view gerald" [email from Gerald opened which asks "Still on for the BBQ?"]. User: "reply" [email reply compose box opens]. User: "Yeah, I&apos;ll be there!" [user&apos;s reply is transcribed into the compose box]. User: "click send" [email reply is sent].'
             >
               <source src="/vid/gmail-demo.webm" type="video/webm" />
               <source src="/vid/gmail-demo.mp4" type="video/mp4" />
@@ -181,6 +184,7 @@
               loop
               poster
               class="mobile-only demo"
+              alt='Demo of user saying commands in Gmail. User: "select top three" [top 3 emails in inbox become selected]. User: "mark as read" [selected emails change from unread to read]. User: "view gerald" [email from Gerald opened which asks "Still on for the BBQ?"]. User: "reply" [email reply compose box opens]. User: "Yeah, I&apos;ll be there!" [user&apos;s reply is transcribed into the compose box]. User: "click send" [email reply is sent].'
             >
               <source src="/vid/gmail-demo-sm.webm" type="video/webm" />
               <source src="/vid/gmail-demo-sm.mp4" type="video/mp4" />
@@ -208,6 +212,7 @@
               loop
               poster
               class="desktop-only demo"
+              alt="User is saying a phrase and it's being transcribed into a Google Docs document"
             >
               <source src="/vid/office-demo.webm" type="video/webm" />
               <source src="/vid/office-demo.mp4" type="video/mp4" />
@@ -219,6 +224,7 @@
               loop
               poster
               class="mobile-only demo"
+              alt="User is saying a phrase and it's being transcribed into a Google Docs document"
             >
               <source src="/vid/office-demo-sm.webm" type="video/webm" />
               <source src="/vid/office-demo-sm.mp4" type="video/mp4" />
@@ -313,6 +319,7 @@
               loop
               poster
               class="desktop-only demo"
+              alt="User is navigating YouTube with their voice. Their utterances are displayed at the top of the screen as they search for a video, pause it, subscribe to the channel and like the video."
             >
               <source src="/vid/leisure-demo.webm" type="video/webm" />
               <source src="/vid/leisure-demo.mp4" type="video/mp4" />
@@ -324,6 +331,7 @@
               loop
               poster
               class="mobile-only demo"
+              alt="User is navigating YouTube with their voice. Their utterances are displayed at the top of the screen as they search for a video, pause it, subscribe to the channel and like the video."
             >
               <source src="/vid/leisure-demo-sm.webm" type="video/webm" />
               <source src="/vid/leisure-demo-sm.mp4" type="video/mp4" />
@@ -379,7 +387,7 @@
         <div>
           <InstallBtn />
         </div>
-        <img style="margin: 3em" src="/img/kb-cat.png" />
+        <img style="margin: 3em" src="/img/kb-cat.png" alt="" aria-role="presentation"/>
       </section>
     </template>
   </BaseLayout>
