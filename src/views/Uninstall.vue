@@ -170,11 +170,16 @@
 </style>
 
 <script lang="ts" setup>
-/// <reference types="amplitude-js"/>
+/**
+ * This used to send up metrics to the amplitude relay, but
+ * now we intercept the GET request with lambda@edge to 
+ * make telemetry less likely to never get sent (which was
+ * the case when needing to wait for the page to load and vue
+ * to initialize - was losing about 30% of our data point)
+ */
+
 import BaseLayout from "./BaseLayout.vue";
 import ReinstallBtn from "../components/ReinstallBtn.vue";
-import amplitude from "amplitude-js/amplitude";
-import { AMPLITUDE_KEY, API_BASE_URL, DEBUG } from "@lipsurf/common/constants";
 import { onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -204,17 +209,9 @@ let docP: Promise<firebase.firestore.DocumentReference>;
 
 onMounted(() => {
   const id = route.query.id || "";
-  const anonId = route.query.anonId;
   docP = db.collection("uninstall-feedback").add({
     user_id: id,
   });
-  const ampInst = amplitude.getInstance();
-  ampInst.init(AMPLITUDE_KEY, anonId, {
-    apiEndpoint: `${API_BASE_URL}amplitudeRelay`,
-  });
-  if (anonId)
-    // reg uninstall was deleted, and amplitude seems to no longer collect it
-    ampInst.logEvent("uninstall2", { anonId });
 });
 
 watch(formData, (newVal: FormData, oldVal: FormData) => {

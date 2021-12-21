@@ -4,7 +4,8 @@
       <v-row row justify-center>
           <div style="max-width: 960px">
         <h1>Privacy Policy</h1>
-        <em>Last Updated February 21, 2020.</em>
+        <em>Last Updated December 9, 2021.</em>
+
         <p class="mute">Added section for "Children's Information" and "Personal Data Security".</p>
         <p>
           LipSurf Inc. ("LipSurf") is very serious and especially careful about your personal privacy and the materials we send you using your contact information. We understand our users trust that we keep their data safe and don't use any data irresponsibly. </p>
@@ -23,11 +24,19 @@
               <li>The names of the commands that you run, and how many times you've run them.
                 <ul>
                   <li>The exact phrasing you used to execute the command is not collected. (eg. for the Google search command, we only record that you ran a Google search, not <strong>what</strong> you searched for. We will never know what you specifically searched for.)</li>
-                  <li>The page you run the command on is not collected.</li>
                   <li>Things you say before or after the command are not collected.</li>
+                  <li>The protocol, host and path of the URL that the command is ran on <strong>is</strong> collected. Any other parts of the URL are stripped away in case they have private information.</li>
+
                 </ul>
               </li>
               <li>Errors that occur when you use LipSurf are collected and sent to us along with your e-mail (if you've provided it). Errors contain only the relevant contextual information to find and fix the bug that may have occurred.</li>
+              <li>When certain actions are taken within the context of LipSurf. This includes but is not limited to:
+                <ul>
+                  <li>When you install/uninstall LipSurf.</li>
+                  <li>When a "you need to upgrade..." type message is shown.</li>
+                  <li>When the options or tutorial pages are shown.</li>
+                </ul>
+              </li>
               <li>(optional) Custom homophones, synonyms or shortcuts that you've created and elected to share the data with us on.</li>
             </ul>
           </p>
