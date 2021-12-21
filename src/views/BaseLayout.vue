@@ -1,5 +1,7 @@
 <template>
   <div>
+    <v-overlay v-model="drawer">
+    </v-overlay>
     <v-navigation-drawer
       fixed
       app
@@ -185,7 +187,7 @@ footer .links section div {
   }
 }
 .side-nav {
-  z-index: 60;
+  z-index: 60 !important;
 }
 </style>
 
