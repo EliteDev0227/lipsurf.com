@@ -1,5 +1,7 @@
 <template>
   <div>
+    <!-- We are adding overlay manually because v-nagigation-drawer was not adding it, 
+    and without this, drawer can't be closed with outside mouse click. -->
     <v-overlay v-model="drawer">
     </v-overlay>
     <v-navigation-drawer
