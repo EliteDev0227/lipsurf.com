@@ -44,29 +44,31 @@
         title="LipSurf Home"
         class="logo hidden-sm-and-down"
       ></router-link>
-      <v-toolbar-title>
+      <v-app-bar-title>
         <router-link :to="{ name: 'landing' }">LipSurf</router-link>
-      </v-toolbar-title>
+      </v-app-bar-title>
       <v-spacer></v-spacer>
 
-      <v-toolbar-items class="hidden-sm-and-down">
-        <template v-for="item in menu">
-          <router-link
-            class="nav-hor-a"
-            v-if="item.internal"
-            :key="item.name"
-            :to="{ name: item.link }"
-            >{{ item.name }}</router-link
-          >
-          <a
-            class="nav-hor-a"
-            v-else
-            :key="item.name"
-            :href="'https://' + item.link"
-            >{{ item.name }}</a
-          >
-        </template>
-      </v-toolbar-items>
+      <div class="hidden-sm-and-down">
+        <div class="d-flex flex-row">
+          <template v-for="item in menu">
+            <router-link
+              class="nav-hor-a"
+              v-if="item.internal"
+              :key="item.name"
+              :to="{ name: item.link }"
+              >{{ item.name }}</router-link
+            >
+            <a
+              class="nav-hor-a"
+              v-else
+              :key="item.name"
+              :href="'https://' + item.link"
+              >{{ item.name }}</a
+            >
+          </template>
+        </div>
+      </div>
     </v-app-bar>
 
     <!-- padded the size of the app-bar -->
@@ -187,10 +189,10 @@ footer .links section div {
 }
 </style>
 
-<script lang="ts" setup>import { onMounted } from 'vue';
+<script lang="ts" setup>import { ref, onMounted } from 'vue';
 
 
-let drawer = false;
+let drawer = ref(false);
 const menu = [
   { internal: true, link: "updates", name: "What's New" },
   { internal: true, link: "pricing", name: "Get Premium" },
