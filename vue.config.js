@@ -138,7 +138,7 @@ module.exports = {
   //                   '/5xx', '/updates/1-8-0', '/notifications/unsubscribe',
   //                   '/settings/plan', '/login',
   //                   '/dragon-naturally-speaking-alternative',
-  //                   '/enterprise'],
+  //                   '/enterprise', '/vips'],
   //           postProcess: function(context) {
   //             let $ = cheerio.load(context.html);
   //             $('head').append(headHTML);

@@ -1,58 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-    <!-- we guard this with non production because in prod it's included 
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <!-- we guard this with non production because in prod it's included 
         via a head tag string that get's inserted later, because we don't want it to prerender with 
         the vue spa plugin -->
-    <% if (NODE_ENV !== 'production') { %>
+  <% if (NODE_ENV !=='production' ) { %>
     <script>
-    WebFontConfig = { google: { families: ['Barlow:300,500'],  } };
-    window.webfontReadyPromise = new Promise(function (resolve, reject) {
-      window.webfontReadyResolver = resolve;
-    });
-    function webfontReadyHandler() {
-      window.webfontReadyResolver();
-    }
-    (function(d) {
-      var wf = d.createElement('script'), s = d.scripts[0];
-      wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
-      wf.async = true;
-      wf.onload = webfontReadyHandler;
-      s.parentNode.insertBefore(wf, s);
-   })(document);
+      WebFontConfig = { google: { families: ['Barlow:300,500'], } };
+      window.webfontReadyPromise = new Promise(function (resolve, reject) {
+        window.webfontReadyResolver = resolve;
+      });
+      function webfontReadyHandler() {
+        window.webfontReadyResolver();
+      }
+      (function (d) {
+        var wf = d.createElement('script'), s = d.scripts[0];
+        wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
+        wf.async = true;
+        wf.onload = webfontReadyHandler;
+        s.parentNode.insertBefore(wf, s);
+      })(document);
     </script>
     <script>
-    window.stripeReadyPromise = new Promise(function (resolve, reject) {
-      window.stripeReadyResolver = resolve;
-    });
-    function stripeReadyHandler() {
-      window.stripeReadyResolver();
-    }
+      window.stripeReadyPromise = new Promise(function (resolve, reject) {
+        window.stripeReadyResolver = resolve;
+      });
+      function stripeReadyHandler() {
+        window.stripeReadyResolver();
+      }
     </script>
     <script src="https://js.stripe.com/v3/" async onload="stripeReadyHandler()"></script>
     <% } %>
-    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/lipsurf/lnnmjmalakahagblkkcnjkoaihlfglon">
-    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#a1f2f1">
-    <meta name="theme-color" content="#ffffff">
-    <meta property="og:url" content="https://www.facebook.com/lipsurfapp" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="LipSurf" />
-    <meta property="og:description" content="Voice Control for the Web" />
-    <meta property="og:image" content="https://www.lipsurf.com/img/icon-128.png" />
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but LipSurf.com doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+      <link rel="chrome-webstore-item"
+        href="https://chrome.google.com/webstore/detail/lipsurf/lnnmjmalakahagblkkcnjkoaihlfglon">
+      <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+      <link rel="manifest" href="/site.webmanifest">
+      <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+      <meta name="msapplication-TileColor" content="#a1f2f1">
+      <meta name="theme-color" content="#ffffff">
+      <meta property="og:url" content="https://www.lipsurf.com" />
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content="LipSurf - Voice Control for the Web" />
+      <meta property="og:description"
+        content="Write emails 3x faster with your voice. Accessible, productive and hands-free web-browsing." />
+      <meta property="og:image" content="https://cdn.lipsurf.com/lipsurf-icon-1024.png" />
+      <meta property="twitter:site:id" content="lipsurfapp" />
+</head>
+
+<body>
+  <noscript>
+    <strong>We're sorry but LipSurf.com doesn't work properly without JavaScript enabled. Please enable it to
+      continue.</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+
 </html>

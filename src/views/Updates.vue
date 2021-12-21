@@ -5,21 +5,270 @@
         <h1>LipSurf Updates</h1>
       </div>
       <ol class="update-posts" style="line-height: 1.2em">
-        <UpdateEntry version="4.0.0" date="2021-6-7">
-          <h3>New Commands:</h3>
+        <UpdateEntry version="4.4.5" date="2021-12-14">
           <ul>
-            <li><span class="voice-cmd">repeat</span> command.</li>
-            <li><span class="voice-cmd">clear</span> command.</li>
+            <li>Misc. improvements.</li>
+          </ul>
+        </UpdateEntry>
+        <UpdateEntry version="4.4.4" date="2021-12-11">
+          <ul>
+            <li>Misc. improvements.</li>
+          </ul>
+        </UpdateEntry>
+        <UpdateEntry version="4.4.3" date="2021-11-30">
+          <ul>
+            <li>Improvements to Duolingo plugin.</li>
+          </ul>
+        </UpdateEntry>
+        <UpdateEntry version="4.4.2" date="2021-11-24">
+          <ul>
+            <li>Fixed small regression in tags.</li>
+          </ul>
+        </UpdateEntry>
+        <UpdateEntry version="4.4.1" date="2021-11-23">
+          <ul>
+            <li><f-lbl premium /> Better automatic spacing with dictation.</li>
+            <li>Improved scrolling for many websites (including Google Docs, Forms).</li>
+            <li>Improved switching between <span class="voice-cmd">spell mode</span> and <span class="voice-cmd">dictation mode</span> (tags are no longer lost). (Thanks Anandi!)</li>
+            <li>Improved clicking tags. (Thanks Anandi!)</li>
+          </ul>
+        </UpdateEntry>
+        <UpdateEntry version="4.4.0" date="2021-11-20">
+          <ul>
+            <li><f-lbl premium /> More intelligient dictation will prevent accidentally executed commands.</li>
+            <li><f-lbl premium /> Switching to <span class="voice-cmd">dictation mode</span> after <span class="voice-cmd">spell mode</span> works now as you would expect (with both normal mode and dictation mode activated). Thanks Anandi!</li>
+            <li>New <span class="voice-cmd">dictation lock mode</span> command — limits the commands that can be executed to only those related to dictation. Say <span class="voice-cmd">normal mode</span> to go back to executing regular commands.</li>
+            <li><f-lbl premium /> New "Dictate here with LipSurf" button when right-clicking editable text fields! (Thanks <a href="https://twitter.com/angeletgaruda?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" target="_blank">@angeletgaruda</a>)
+              <img
+                width="454"
+                height="285"
+                src="/img/updates/right-click-dictate-here.png"
+                alt="New &quot;Dictate here with LipSurf&quot; menu option when right-clicking editable text fields"
+              />
+            </li>
+            <li><f-lbl premium /> New scratchpad on the new tab page!
+              <img
+                width="616"
+                height="305"
+                src="/img/updates/scratchpad.png"
+                alt="New scratchpad on new tab page is a convenient place to dictate text with full voice editing capabilities."
+              />
+            </li>
+            <li>Improvements to tutorial.</li>
+            <li>Fixed tags letters/numbers preference not saving. (Thanks <a href="https://discuss.lipsurf.com/u/JojoFuu" target="_blank">@JojoFuu</a>)</li>
+            <li>No longer opening updates page when extension icon is clicked after an update. Updates can be conveniently opened by right-clicking the extension icon and clicking "what's new".</li>
+          </ul>
+        </UpdateEntry>
+        <UpdateEntry version="4.3.0" date="2021-11-5">
+          <ul>
             <li>
-              <span class="voice-cmd">go to previous field</span> command.
+              New popup for when additional steps need to be taken for
+              <f-lbl premium />dictation on Google Apps (e.g. Google Sheets,
+              Slides, Gmail, Docs etc.)
+            </li>
+            <li>
+              More intelligent spacing between dates (with slashes) and numbers.
+            </li>
+            <li>New <span class="voice-cmd">remove spaces</span> command.</li>
+            <li>
+              LipSurf tips on the new tab page.
             </li>
           </ul>
+        </UpdateEntry>
+        <UpdateEntry version="4.2.0" date="2021-10-8">
+          <ul>
+            <li>
+              Fixes issue where LipSurf mistankenly asks for upgrade when
+              already on a paid plan (would show if there were internet
+              connection issues when Chrome was started).
+            </li>
+            <li>
+              <f-lbl premium /> Dictation now works automatically in Google
+              Sheets.
+            </li>
+            <li>
+              <f-lbl plus /> Added "show hint" to WaniKani and fixed automatic
+              showing hint feature showing prematurely with Japanese (thanks
+              <a target="_blank" href="https://discuss.lipsurf.com/u/dagger/summary">@Dagger</a
+              >)
+            </li>
+          </ul>
+        </UpdateEntry>
+        <UpdateEntry version="4.1.2" date="2021-8-28">
+          <ul>
+            <li>Fixed <span class="voice-cmd">autoscroll</span>.</li>
+            <li>
+              <f-lbl premium /> Merged <span class="voice-cmd">literal *</span>,
+              <span class="voice-cmd">dictate *</span> and
+              <span class="voice-cmd">write *</span> commands to work for both
+              spelling out symbols like punctuation and spelling out commands
+              instead of executing them. Note that any variation can be used and
+              will do the same thing.
+            </li>
+            <li>
+              Fixed <span class="voice-cmd">untag</span> sometimes being
+              recognized as the <span class="voice-cmd">am</span> tag. (Thanks
+              Sophie!)
+            </li>
+            <li>Duolingo improvements.</li>
+            <li>
+              <f-lbl premium />Better handling of quotation marks and
+              apostrophes. (Thanks Sophie!)
+            </li>
+            <li>
+              <f-lbl premium />Better handling of "@" at sign. (Thanks Sophie!)
+            </li>
+            <li>Improvements to custom shortcuts.</li>
+            <li>Improvements to underlining replacements.</li>
+          </ul>
+        </UpdateEntry>
+        <UpdateEntry version="4.1.1" date="2021-8-4">
+          <ul>
+            <li><f-lbl premium /> Dictation works in more places.</li>
+          </ul>
+        </UpdateEntry>
+        <UpdateEntry version="4.1.0" date="2021-8-1">
+          <ul>
+            <li>
+              New <span class="voice-cmd">press * </span> command for emulating
+              keyboard presses (e.g.
+              <span class="voice-cmd">press Ctrl-P</span>).
+            </li>
+            <li>Allowing regex match groups in custom shortcuts.</li>
+            <li>Fixed Japanese recognizer issues.</li>
+            <li>Now showing new custom shortcuts on the new tab page.</li>
+            <li>Improved WaniKani <f-lbl plus /> plugin.</li>
+            <li>
+              New context menu for quickly switching back to English, pausing
+              and opening help.
+              <img
+                width="260"
+                height="330"
+                src="/img/updates/context-menu.png"
+                alt="New context menu when right-clicking extension icon."
+              />
+            </li>
+            <li>
+              Fixed edge-case where wake-word <f-lbl premium /> would not
+              respond.
+            </li>
+          </ul>
+        </UpdateEntry>
+        <UpdateEntry version="4.0.3" date="2021-7-8">
+          <ul>
+            <li>Fixed <span class="voice-cmd">select *</span> command.</li>
+            <li>Fixed commands not working while address bar was focused.</li>
+            <li>
+              Fixed <span class="voice-cmd">go to [URL]</span> not working on
+              certain hosts without TLDs.
+            </li>
+            <li>
+              Fixed migrating to v4 freeze when custom plugins were installed.
+            </li>
+            <li>
+              Fixed navigation issue in <span class="voice-cmd">tutorial</span>.
+            </li>
+          </ul>
+        </UpdateEntry>
+        <UpdateEntry version="4.0.2" date="2021-7-3">
+          <ul>
+            <li>Fixed issues with "show live transcript" option.</li>
+            <li>Fixed issues with dictating punctuation.</li>
+          </ul>
+        </UpdateEntry>
+        <UpdateEntry version="4.0.1" date="2021-7-1">
+          <ul>
+            <li>
+              Fixed issues with tutorial automatically opening unnecessarily on
+              Chrome start.
+            </li>
+          </ul>
+        </UpdateEntry>
+        <UpdateEntry version="4.0.0" date="2021-6-29">
+          <div class="video-cont">
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/X15pkLP3To4"
+              frameborder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <ul>
+            <li>
+              Dictation is now automatic!
+              <div class="mute">
+                Simply start speaking with a textbox selected, there's no longer
+                a need to say <span class="voice-cmd">dictate *</span> or
+                <span class="voice-cmd">dictation mode</span>.
+              </div>
+            </li>
+            <li>
+              New custom shortcuts manager!
+              <div class="video-cont">
+                <img
+                  width="610"
+                  height="477"
+                  src="/img/updates/custom-shortcuts-manager.png"
+                  alt="Interface for managing custom shortcuts screenshot"
+                />
+              </div>
+            </li>
+            <li>
+              New option to use numbers instead of letters for annotations!
+              <div class="video-cont">
+                <img
+                  width="1074"
+                  height="363"
+                  src="/img/updates/v4-options2.png"
+                  alt="New numbers option for annotations screenshot"
+                />
+              </div>
+            </li>
+            <li>
+              New option to automatically turn on LipSurf when Chrome starts!
+            </li>
+            <li>
+              New option to automatically pause LipSurf when Chrome loses focus!
+              <div class="video-cont">
+                <img
+                  width="744"
+                  height="158"
+                  src="/img/updates/v4-options.png"
+                  alt="New options screenshot"
+                />
+              </div>
+            </li>
+          </ul>
+          <h3>New Commands</h3>
+          <ul>
+            <li>
+              <span class="voice-cmd">repeat</span> command - repeat the
+              previous command X times.
+            </li>
+            <li>
+              <span class="voice-cmd">unfocus</span> command - clicks out of the
+              current focused element.
+            </li>
+            <li>
+              <span class="voice-cmd">clear</span> command - clears the focused
+              text box.
+            </li>
+            <li>
+              <span class="voice-cmd">go to previous field</span> - the opposite
+              of <span class="voice-cmd">go to next field</span> for navigating
+              forms.
+            </li>
+          </ul>
+          <h3>Other Improvements</h3>
           <ul>
             <li>Live transcript stays open while moused over.</li>
             <li>
               Fixed WaniKani auto-pause LipSurf during pronunciation playback.
             </li>
             <li>Fixed media <span class="voice-cmd">resume</span> command.</li>
+            <li>Various performance improvements and bug fixes.</li>
           </ul>
         </UpdateEntry>
         <UpdateEntry version="3.11.4" date="2021-3-17">

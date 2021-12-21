@@ -122,4 +122,10 @@ blockquote .profile {
   top: -0.8em;
   left: -0.5em;
 }
+
+dt {
+  font-weight: bold;
+  margin-top: 1em;
+}
+
 </style>

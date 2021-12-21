@@ -102,6 +102,11 @@ const router = createRouter({
       component: () => import(/* webpackChunkName: "dragon" */ './views/DragonComparison.vue'),
     },
     {
+      path: '/vips',
+      name: 'vips',
+      component: () => import(/* webpackChunkName: "uninstall" */ './views/VIPs.vue'),
+    },
+    {
       path: '/notifications/unsubscribe',
       meta: {
         title: 'Unsubscribe from Notifications',
